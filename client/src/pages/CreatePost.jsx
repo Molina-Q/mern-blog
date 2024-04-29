@@ -59,12 +59,10 @@ export default function CreatePost() {
 					);
 					setImageFileUploadProgress(null);
 					setImageFile(null);
-					setImageFileUrl(null);
 					setImageFileUploading(false);
 				},
 				() => {
 					getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-						setImageFileUrl(downloadURL);
 						setFormData({
 							...formData,
 							image: downloadURL,
