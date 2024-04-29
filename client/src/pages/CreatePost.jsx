@@ -20,6 +20,8 @@ export default function CreatePost() {
 	const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
 	const [formData, setFormData] = useState({});
 
+	const [publishError, setPublishError] = useState(null);
+
 	const navigate = useNavigate();
 
 	const handleImageChange = (e) => {
@@ -115,14 +117,20 @@ export default function CreatePost() {
 
 			const data = await res.json();
 
+			if (data.success === false) {
+				setPublishError(data.message);
+			}
+
 			if (!res.ok) {
-				setImageFileUploadError(data.message);
-			} else {
-				setImageFileUploadError(null);
-				navigate("/");
+				setPublishError(data.message);
+			}
+
+			if (res.ok) {
+				setPublishError(null);
+				navigate(`/post/${data.slug}`);
 			}
 		} catch (error) {
-			setImageFileUploadError(error);
+			setPublishError("Something went wrong");
 		}
 	};
 
@@ -180,6 +188,7 @@ export default function CreatePost() {
 				{imageFileUploadError && (
 					<Alert color={"failure"}>{imageFileUploadError}</Alert>
 				)}
+	
 				{formData.image && (
 					<img
 						src={formData.image}
@@ -197,6 +206,9 @@ export default function CreatePost() {
 				<Button type="submit" gradientDuoTone={"purpleToPink"}>
 					Publish
 				</Button>
+				{publishError && (
+					<Alert className="mt-5" color={"failure"}>{publishError}</Alert>
+				)}
 			</form>
 		</div>
 	);
