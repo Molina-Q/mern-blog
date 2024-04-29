@@ -21,6 +21,7 @@ import {
 	signoutSuccess,
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 export default function DashProfile() {
 	const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -259,7 +260,7 @@ export default function DashProfile() {
 					{loading ? "Loading..." : "Update"}
 				</Button>
 				{currentUser.isAdmin && (
-					<Link to={"create-post"}>
+					<Link to={"/create-post"}>
 						<Button
 							type="button"
 							gradientDuoTone="purpleToPink"
